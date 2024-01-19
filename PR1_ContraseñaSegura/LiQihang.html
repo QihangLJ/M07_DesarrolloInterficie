@@ -19,11 +19,23 @@
 <main>
     <section id="validador">
         <h2>Introduce la contraseña:</h2>
-
+        <form>
+            <input type="text" id="password" name="password" placeholder="Contraseña">
+            <input type="button" id="boton_confirmar" value="CHECK">
+            <input type="button" id="boton_ver_contra" value="SEE">
+        </form>
     </section>
     <section id="requesitos">
         <h2>Requesitos:</h2>
-        <!--Mostrar los requesitos, marcar con un tick en verde los cumplidos-->
+        <ul>
+            <li id="req_long">Tiene que tener un minimo de 8 y un maximo de 20 caracteres.</li>
+            <li id="req_num">Tiene que tener un minimo de 1 digito numerico.</li>
+            <li id="req_mayus">Tiene que tener un minimo de 1 letra en mayuscula.</li>
+            <li id="req_minus">Tiene que tener un minimo de 2 letras en minusculas.</li>
+            <li id="req_tres_valores">No puede tener el mismo caracter 3 veces o mas seguidas.</li>
+            <li id="req_espacios">No puede tener espacios en blanco.</li>
+            <li id="req_caracteres">Tiene que tener algunos de los siguentes caracteres especiales: <br> !, @, #, $, %, &, _, -, ., =</li>
+        </ul>
     </section>
     <section id="porcentage">
         <h2>Seguridad:</h2>
