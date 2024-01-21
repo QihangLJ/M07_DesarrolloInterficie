@@ -1,0 +1,97 @@
+body {
+    font-family:monospace, 'Courier New', Courier;
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../img/fondo.png");
+    background-color: rgb(31, 119, 202);
+    background-size: 95%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 10%;
+}
+
+#logo{
+    width: 15%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1{
+    font-size: 50px;
+}
+
+main {
+    background-color: rgba(128, 186, 235, 0.808);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 90%;
+    padding: 20px;
+}
+
+main section{
+    background-color: rgba(71, 71, 71, 0.5);
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom: 5px solid black;
+    border-right: 5px solid black;
+    margin: 10px;
+    padding: 20px;
+}
+
+#validador{
+    width: 30%;
+    height: auto;
+}
+
+#validador form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+#validador form div{
+    display: flex;
+    height: 40px;
+    margin-bottom: 30px;
+}
+#password{
+    width: 100%;
+}
+
+#boton_confirmar, #boton_limpiar{
+    height: 40px;
+    width: 50%;
+    border-radius: 50px;
+    align-self: center;
+    font-weight: bold;
+} 
+
+#boton_confirmar{
+    background-color: rgba(29, 216, 76, 0.705);
+}
+#boton_limpiar{
+    background-color: rgba(5, 212, 248, 0.74);
+}
+
+#validador form p{
+    margin-top: 45px;
+    color: Black;
+    font-size: medium;
+}
+
+#requesitos{
+    width: 40%;
+    height: auto;
+    padding: 20px;
+}
+
+#requesitos ul li{
+    color: white;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Qihang Li Jiang">
+    <meta name="description" content="Pagina que validara si la contraseña que se introduce es segura o no.">
+    <title>Contraseña Segura</title>
+    <link rel="icon" href="img/candado.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="LiQihang.js"></script>
+</head>
+
+<body>
+    <header>
+        <img src="img/candado.png" id="logo">
+        <h1>VALIDADOR: CONTRASEÑA SEGURA</h1>
+    </header>
+    <main>
+        <section id="validador">
+            <h2>INTRODUCE LA CONTRASEÑA:</h2>
+            <form>
+                <div>
+                    <input type="text" id="password" name="password" placeholder="Contraseña" onkeydown="TeclaEnterPulsado(event)">
+                    <input type="button" id="boton_ver_contra" value="SEE/HIDE" onclick="VerOcultarContraseña()">
+                </div>
+                <input type="button" id="boton_confirmar" value="CHECK" onclick="init()">
+                <input type="button" id="boton_limpiar" value="CLEAN" onclick="LimpiarContraseña()">
+                <p>¡Para hacer el CHECK tambien puedes pulsar "Enter"!</p>
+            </form>
+        </section>
+        <section id="requesitos">
+            <h2>REQUESITOS:</h2>
+            <ul>
+                <li id="req_long">Tiene que tener un minimo de 8 y un maximo de 20 caracteres.</li>
+                <li id="req_num">Tiene que tener un minimo de 1 digito numerico.</li>
+                <li id="req_mayus">Tiene que tener un minimo de 1 letra en mayuscula.</li>
+                <li id="req_minus">Tiene que tener un minimo de 2 letras en minusculas.</li>
+                <li id="req_tres_valores">No puede tener el mismo caracter 3 veces o mas seguidas.</li>
+                <li id="req_espacios">No puede tener espacios en blanco.</li>
+                <li id="req_caracteres">Tiene que tener algunos de los siguentes caracteres especiales:
+                    <br> !, @, #, $, %, &, _, -, ., =
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>
