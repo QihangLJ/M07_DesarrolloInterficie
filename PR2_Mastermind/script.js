@@ -18,8 +18,8 @@ function init() {
     //1. Genera el código random del master
     for (let i = 0; i < MAX_COMBI_COLORES; i++){
         master[i] = getRandomColor(getRandomInt());
+        //console.log(master[i]);
     }
-    console.log(master);
 
     //2. Crea todas las filas según el número de intentos.
     
@@ -71,7 +71,7 @@ const ROW_RESULT = `<div class="rowResult w100 flex wrap">
     <div>
 </div>`;
 
-/**Funcion que nos devuelve un numero aleatorio. */
+/*Funcion que nos devuelve un numero aleatorio.*/
 function getRandomInt(max = 8) {
     let i = 0;
     do {
@@ -80,7 +80,17 @@ function getRandomInt(max = 8) {
     return i;
 }
 
-/**Funcion que nos devuelve un color aleatorio dentro del array de colores. */
+/*Funcion que nos devuelve un color aleatorio dentro del array de colores.*/
 function getRandomColor(number) {
     return COLORS[number - 1];
+}
+
+/*Funcion para crear todos las casillas grises segun los intentos que haya introducido el usuario*/
+function createColorBox(rowsNumber){
+    let resultRows = document.getElementById(Result)
+    for (let i = 0; i < rowsNumber; i++)
+    {
+        let cel = resultRows.createElement['div'];
+        
+    }
 }
