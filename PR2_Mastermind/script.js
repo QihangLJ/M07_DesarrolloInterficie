@@ -75,20 +75,31 @@ function comprobar() {
     column = 0;
     userCombi = [];
 
-    //Iniciamos las validaciones de los colores.
-    for (let i in userCombi){
-        if (checkColor(userCombi[i]))
-        {
-            if (checkPosition(userCombi[i], master[i]))
-            {
-                //printar color negro (color y posicion correcto)
-            } else{
-                //printar color blanco (color esta pero no en la posicion correcta)
-            }
-        } else{
-            //printar color gris (NADA)
-        }
+    //Selecionamos las bolas del html.
+    let ball = document.querySelector('.rowCercleResult:nth-child(' + intento + ')');
+
+    //Assignamos los colores segun las repuestas.
+    for (let i in userCombi) {
+        ball[i].style.backgroundColor = changeBallColor(userCombi[i], master[i]);
     }
+}
+
+//Funcion para assignar los colores a las bolitas segun la respuesta del usuario.
+function changeBallColor(userCombi, master) {
+    let color;
+    if (checkColor(userCombi)) {
+        if (checkPosition(userCombi, master)) {
+            //printar color negro (color y posicion correcto)
+            color = "black";
+        } else {
+            //printar color blanco (color esta pero no en la posicion correcta)
+            color = "white";
+        }
+    } else {
+        //printar color gris (NADA)
+        color = "gray";
+    }
+    return color;
 }
 
 //Funcion para validar si el color que ha escogido el usuario esta dentro o no.
