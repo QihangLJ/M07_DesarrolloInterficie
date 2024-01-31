@@ -52,8 +52,8 @@ function init() {
     //1. Genera el código random del master
     for (let i = 0; i < MAX_COMBI_COLORES; i++) {
         master[i] = getRandomColor(getRandomInt());
-        //console.log(master[i]), para ver que se ha generado adecuadamente;
     }
+    console.log(master) //para ver que se ha generado adecuadamente;
 
     //2. Crea todas las filas según el número de intentos.
     let rowNumbers = 0;
@@ -70,18 +70,18 @@ function init() {
 introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
 function comprobar() {
-    //Reiniciamos las variables por ronda/intento.
-    intento++;
-    column = 0;
-    userCombi = [];
-
     //Selecionamos las bolas del html.
-    let ball = document.querySelector('.rowCercleResult:nth-child(' + intento + ')');
+    let ball = document.querySelectorAll('.rowResult:nth-child(' + intento + ') .cercleResult');
 
     //Assignamos los colores segun las repuestas.
     for (let i in userCombi) {
         ball[i].style.backgroundColor = changeBallColor(userCombi[i], master[i]);
     }
+
+    //Reiniciamos las variables por ronda/intento.
+    intento++;
+    column = 0;
+    userCombi = [];
 }
 
 //Funcion para assignar los colores a las bolitas segun la respuesta del usuario.
@@ -89,15 +89,12 @@ function changeBallColor(userCombi, master) {
     let color;
     if (checkColor(userCombi)) {
         if (checkPosition(userCombi, master)) {
-            //printar color negro (color y posicion correcto)
-            color = "black";
+            color = "black"; //printar color negro (color y posicion correcto)
         } else {
-            //printar color blanco (color esta pero no en la posicion correcta)
-            color = "white";
+            color = "white"; //printar color blanco (color esta pero no en la posicion correcta)
         }
     } else {
-        //printar color gris (NADA)
-        color = "gray";
+        color = "grey"; //printar color gris (NADA)
     }
     return color;
 }
