@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang=”es”>
+
+<head>
+    <meta charset=”UTF-8″ />
+    <title>Document</title>
+</head>
+
+<body onload="init()">
+
+
+    <script>
+        function init() {
+            let array1 = ['hola', 'adios'];
+            let array2 = [1, '323', 1.3];
+            let array3 = [2, 4, 6, 8];
+            let array4 = [1, 2, 3, 4, 5];
+
+            console.log("TODOS:");
+            console.log(IsStringArray(array1));
+            console.log(IsStringArray(array2));
+            console.log(IsEvenArray(array3));
+            console.log(IsEvenArray(array4));
+
+            let array5 = ["hola", "adioh"];
+            let array6 = [1, 2, "31", 4];
+            let array7 = [1, 2, 5, '7'];
+            let array8 = [1, 3, 5, '7'];
+
+            console.log("AL MENOS UNO:");
+            console.log(checkLength(array5));
+            console.log(checkLength(array6));
+            console.log(checkOneEven(array7));
+            console.log(checkOneEven(array8));
+
+            let array9 = ["2eawe", "r2e"];
+            let array10 = ["123", "wq", "aei1"];
+
+            console.log("TRANSFORMA:");
+            console.log(arrayElementLength(array9));
+            console.log(multiplyArrayElement(array10, 3));
+
+
+        }
+
+        function IsStringArray(array) {
+            for (let element of array) {
+                if (typeof (element) !== "string") {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function IsEvenArray(array) {
+            for (let element of array) {
+                if (element % 2 != 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function checkLength(array) {
+            let i = 0;
+            while (i < array.length) {
+                if (array[i].length > 2) { return true; }
+                i++
+            }
+            return false;
+        }
+
+        function checkOneEven(array) {
+            for (let element of array) {
+                if (element % 2 == 0) { return true; }
+            }
+            return false;
+        }
+
+        function arrayElementLength (array){
+            let arrayLengths = [];
+            for (let element of array){
+                arrayLengths.push(element.length)
+            }
+            return arrayLengths;
+        }
+
+        function multiplyArrayElement (array, num){
+            let resultArray = [];
+            for (let element of array){
+                for (let i = 0; i < num; i++){
+                    resultArray.push(element);
+                }
+            }
+            return resultArray;
+        }
+    </script>
+</body>
+
+</html>
