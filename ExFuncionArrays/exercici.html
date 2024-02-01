@@ -34,15 +34,35 @@
             console.log(checkOneEven(array8));
 
             let array9 = ["2eawe", "r2e"];
-            let array10 = ["123", "wq", "aei1"];
+            let array10 = [1,2,3];
 
             console.log("TRANSFORMA:");
             console.log(arrayElementLength(array9));
             console.log(multiplyArrayElement(array10, 3));
 
+            let array11 = ["zola", "hola", "adios", "ZUTT", "zada"];
+            let array12 = [1,2,3,4,5,10,21,20,25,30,50,63];
+
+            console.log("FILTRO:");
+            console.log(onlyInitialZ(array11));
+            console.log(multipleOfFive(array12));
+
+            let array13 = [121,131,22222,1331,12];
+            let array14 = ["hola", "polo", "adios", "playa"];
+
+            console.log("BUSCA:");
+            console.log(firstLengthFive(array13));
+            console.log(lastInitialP(array14));
+
+
+            let array15 = [10,2,3];
+
+            console.log("ACUMULA:");
+            console.log(restArrayElementDes(array15));
 
         }
 
+        //1:
         function IsStringArray(array) {
             for (let element of array) {
                 if (typeof (element) !== "string") {
@@ -52,6 +72,7 @@
             return true;
         }
 
+        //2:
         function IsEvenArray(array) {
             for (let element of array) {
                 if (element % 2 != 0) {
@@ -61,6 +82,7 @@
             return true;
         }
 
+        //3:
         function checkLength(array) {
             let i = 0;
             while (i < array.length) {
@@ -70,6 +92,7 @@
             return false;
         }
 
+        //4:
         function checkOneEven(array) {
             for (let element of array) {
                 if (element % 2 == 0) { return true; }
@@ -77,23 +100,118 @@
             return false;
         }
 
-        function arrayElementLength (array){
+        //5:
+        function arrayElementLength(array) {
             let arrayLengths = [];
-            for (let element of array){
+            for (let element of array) {
                 arrayLengths.push(element.length)
             }
             return arrayLengths;
         }
 
-        function multiplyArrayElement (array, num){
+        //6:
+        function multiplyArrayElement(array, num) {
             let resultArray = [];
-            for (let element of array){
-                for (let i = 0; i < num; i++){
-                    resultArray.push(element);
-                }
+            for (let element of array) {
+                resultArray.push(element * num);
             }
             return resultArray;
         }
+
+        //7:
+        function onlyInitialZ(array) {
+            const CHARACTER_Z = 'Z'
+            let newArray = [];
+            for (let element of array) {
+                if (element[0].toUpperCase() == CHARACTER_Z) {
+                    newArray.push(element);
+                }
+            }
+            return newArray;
+        }
+
+        //8:
+        function multipleOfFive(array, numFive = 5){
+            let newArray = [];
+            for (let element of array) {
+                if (element % 5 == 0) {
+                    newArray.push(element);
+                }
+            }
+            return newArray;
+        }
+
+        //9:
+        function firstLengthFive(array){
+            //Pasar de un array de int a uno de string.
+            let convertedArray = array.toString().split(',');
+            for (let element of convertedArray) {
+                if (element.length == 5) {
+                    return element;
+                }
+            }
+            return 0;
+        }
+
+        //10:
+        function lastInitialP(array){
+            const CHARACTER_P = 'P';
+            for (let i = array.length - 1; i >= 0; i--) {
+                if (array[i][0].toUpperCase() == CHARACTER_P) {
+                    return array[i];
+                }
+            }
+            return 0;
+        }
+
+        //11:
+        function firstInitialP(array){
+            const CHARACTER_P = 'T';
+            for (let element of array) {
+                if (element[0].toUpperCase() == CHARACTER_T) {
+                    return element;
+                }
+            }
+            return 0;
+        }
+
+        //12:
+        function lastEvenValue(array){
+            for (let i = array.length - 1; i >= 0; i--) {
+                if (array[i] % 2 == 0) {
+                    return array[i];
+                }
+            }
+            return 0;
+        }
+
+        //13:
+        function sumArrayElement(array){
+            let sum = 0;
+            for (let element of array){
+                sum += element;
+            }
+            return sum;
+        }
+
+        //14:
+        function restArrayElementAsc(array){
+            let rest = 0;
+            for (let element of array){
+                rest -= element;
+            }
+            return rest;
+        }
+
+        //15:
+        function restArrayElementDes(array){
+            let rest = array[array.length-1];
+            for (let i = array.length - 2; i >= 0; i--) {
+                rest -= array[i];
+            }
+            return rest;
+        }
+
     </script>
 </body>
 
