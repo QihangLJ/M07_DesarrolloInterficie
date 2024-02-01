@@ -87,6 +87,7 @@ main{
     justify-content: center;
     font-size: 2.25em;
     align-items: center;
+    border: 1px solid grey;  
 }
 
 .celUserCombi{
@@ -102,7 +103,7 @@ main{
     justify-content: center;
     font-size: 2.25em;
     align-items: center;
-    border: 1px solid  #BABABA;  
+    border: 1px solid grey;  
 }
 
 .cercleResult{
@@ -169,5 +170,24 @@ button:hover, button:focus{
     cursor: pointer;
 }
 
+#erase{
+    width: 25%;
+    float: right;
+    background-color: rgba(206, 43, 43, 0.918);
+}
 
+#restart{
+    width: 25%;
+    float: left;
+    background-color: rgba(228, 162, 21, 0.877);
+}
 
+#erase:hover{    
+    background-color: rgba(201, 53, 53, 0.521);    
+    cursor: pointer;
+}
+
+#restart:hover{    
+    background-color: rgba(228, 162, 21, 0.521);    
+    cursor: pointer;
+}
