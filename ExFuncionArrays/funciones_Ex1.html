@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang=”es”>
+
+<head>
+    <meta charset=”UTF-8″ />
+    <title>Document</title>
+</head>
+
+<body onload="init()">
+
+
+    <script>
+        function init() {
+
+            console.log(saludar('qihang'));
+            console.log(saludar('qihang','adios'));
+
+            console.log(calcular(1,2));
+            console.log(calcular(1,2,'resta'));
+
+            console.log(calcularPromedio(5,5,5,5,5));
+
+            console.log(concatenarNombres('qihang', 'pau', 'pol', 'joan', '12', '23'));
+
+        }
+
+        function saludar(nombre, saludo = 'Hola') {
+            return saludo + " " + nombre;
+        }
+
+        function calcular(num1, num2, operacion = 'suma') {
+            let res = 0;
+            switch (operacion) {
+                case 'suma': res = num1 + num2;
+                    break;
+                case 'resta': res = num1 - num2;
+                    break;
+                case 'multiplicacion': res = num1 * num2;
+                    break;
+                case 'division': res = num1 / num2;
+                    break;
+            }
+            return res;
+        }
+
+        function calcularPromedio() {
+            let res = 0;
+            for (let element of arguments){
+                res += element;
+            }
+            return res/arguments.length;
+        }
+
+        function concatenarNombres() {
+            let nombres = [];
+            for (let i in arguments) {
+                nombres.push(arguments[i]);
+            }
+            return nombres.join(', ');
+        }
+    </script>
+</body>
+
+</html>
