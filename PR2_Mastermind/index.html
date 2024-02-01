@@ -34,42 +34,45 @@
                 <section id="selección" class="w100 flex wrap center">
                     <div class="w100 flex wrap center">
                         <div class="w8">
-                            <div id="white" class="w100 cel flex" onclick="añadeColor('white')"></div>
+                            <div id="white" class="w100 cel flex" onclick="addColor('white')"></div>
                         </div>
                         <div class="w8">
-                            <div id="green" class="w100 cel flex" onclick="añadeColor('green')"></div>
+                            <div id="green" class="w100 cel flex" onclick="addColor('green')"></div>
                         </div>
                         <div class="w8">
-                            <div id="red" class="w100 cel flex" onclick="añadeColor('red')"></div>
+                            <div id="red" class="w100 cel flex" onclick="addColor('red')"></div>
                         </div>
                         <div class="w8">
-                            <div id="blue" class="w100 cel flex" onclick="añadeColor('blue')"></div>
+                            <div id="blue" class="w100 cel flex" onclick="addColor('blue')"></div>
                         </div>
                         <div class="w8">
-                            <div id="violet" class="w100 cel flex" onclick="añadeColor('violet')"></div>
+                            <div id="violet" class="w100 cel flex" onclick="addColor('violet')"></div>
                         </div>
                         <div class="w8">
-                            <div id="yellow" class="w100 cel flex" onclick="añadeColor('yellow')"></div>
+                            <div id="yellow" class="w100 cel flex" onclick="addColor('yellow')"></div>
                         </div>
                         <div class="w8">
-                            <div id="orange" class="w100 cel flex" onclick="añadeColor('orange')"></div>
+                            <div id="orange" class="w100 cel flex" onclick="addColor('orange')"></div>
                         </div>
                         <div class="w8">
-                            <div id="cyan" class="w100 cel flex" onclick="añadeColor('cyan')"></div>
+                            <div id="cyan" class="w100 cel flex" onclick="addColor('cyan')"></div>
                         </div>
                     </div>
                 </section>
                 <input disabled class="w90" type="text" id="combiText" name="combiText" value=""><br>
-                <button class="w90" id="check" onclick="comprobar()">Comprobar</button>
+                <button class="w90" id="check" onclick="check()">Comprobar</button>
+                <button id="erase" onclick="erase()">Borrar</button>
+                <button id="restart" onclick="restart()">Reiniciar</button>
             </section>
 
             <section class="w100 info">
                 <p class="w90" id="info">Primer intento, suerte!</p>
+                <p class="w90" id="attempts">Intentos restantes: <strong></strong></p>
             </section>
         </div>
 
         <section id="Result" class="flex wrap center">
-<!-- aquí es donde deberemos ir añadiendo filas según el número de intentos.-->
+            <!-- aquí es donde deberemos ir añadiendo filas según el número de intentos.-->
         </section>
 
         <section>
