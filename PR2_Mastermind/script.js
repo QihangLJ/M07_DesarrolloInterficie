@@ -1,13 +1,13 @@
 //Declaración de constantes.
-const MAX_INTENTOS = 10;
-const MIN_INTENTOS = 1;
-const MAX_COMBI_COLORES = 4;
+const MAX_ATTEMPTS = 10;
+const MIN_ATTEMPTS = 1;
+const MAX_COMBI_COLORS = 4;
 const COLORS = ['white', 'blue', 'green', 'violet', 'yellow', 'red', 'orange', 'cyan'];
 const GREY = "grey";
 const WHITE = "white";
 const BLACK = "black";
 
-/** Template con el código HTML que corresponde a cada fila de juego/intento. */
+//Template con el código HTML que corresponde a cada fila de juego/intento.
 const ROW_RESULT = `<div class="rowResult w100 flex wrap">
     <div class="rowUserCombi w75 flex wrap">
        <div class="w25">
@@ -42,46 +42,115 @@ const ROW_RESULT = `<div class="rowResult w100 flex wrap">
 //Declaración de variables globales.
 const master = [];
 var userCombi = [];
-var intento = 0;
+var attempts = 0;
 var column = 0;
-var aciertos = 0;
+var rowNumbers = 0;
 
 function init() {
-    intento++;
-
     //1. Genera el código random del master
-    for (let i = 0; i < MAX_COMBI_COLORES; i++) {
+    for (let i = 0; i < MAX_COMBI_COLORS; i++) {
         master[i] = getRandomColor(getRandomInt());
     }
-    console.log(master) //para ver que se ha generado adecuadamente;
+    console.log(master) //Para ver que se ha generado adecuadamente;
 
     //2. Crea todas las filas según el número de intentos.
-    let rowNumbers = 0;
     do {
         rowNumbers = prompt("Introduce el numero de intentos de 1 a 10:");
     } while (!attemptsValidation(rowNumbers));
-
     createColorBox(rowNumbers);
+
+    //Muestra la informacion de los intentos en la pantalla.
+    remainingAttemptsMsg();
 }
 
+//Llamaremos esta funcion desde el boton de "erase" para borrar el ultimo color que hayamos introducido.
+function erase() {
+    userCombi.pop();
+    eraseColorCell();
+    eraseColorName();
+}
+function eraseColorCell() {
+    let especificCell = document.querySelectorAll('.rowResult:nth-child(' + [attempts + 1] + ') .celUserCombi');
+    column--;
+    especificCell[column].style.backgroundColor = "#BABABA";
+}
 
+function eraseColorName() {
+    let colorName = document.getElementById('combiText');
+    let colorNameArray = colorName.value.split(',');
+    colorNameArray.pop();
+    colorName.value = colorNameArray;
+}
 
-/* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha
+//Llamaremos esta funcion desde el boton de "erase" para borrar el ultimo color que hayamos introducido.
+function restart() {
+    //Reiniciamos las variables para empezar la partida.
+    attempts = 0;
+    column = 0;
+    userCombi = [];
+
+    //Eliminamos las celdas de intentos.
+    let resultCell = document.getElementById('Result');
+    resultCell.innerHTML = '';
+
+    userAttemptsMsg();
+    cleanMasterCell();
+    init();
+}
+
+function cleanMasterCell() {
+    let masterCell = document.querySelectorAll('#master .cel');
+    for (let i = 0; i < masterCell.length; i++) {
+        masterCell[i].style.backgroundColor = "grey";
+    }
+}
+
+/*Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha
 introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
-function comprobar() {
+function check() {
+    //Validamos los colores del usuario con la del master.
+    checkBallResult();
+
+    //Incrementamos el contador de intentos y lo mostramos al juagdor.
+    attempts++;
+    userAttemptsMsg();
+    remainingAttemptsMsg();
+
+    //Comprobamos si hemos ganado o perdido, en cualquiera de los caosos, mostramos los colores del master.
+    if (victoryValidation() || attempts >= rowNumbers) {
+        colorMasterCell();
+        endGameMsg(victoryValidation());
+    } else {
+        //Reiniciamos las variables para una nueva ronda (intento) e incrementamos el contador de intentos.
+        column = 0;
+        userCombi = [];
+    }
+
+    deleteColorName();
+}
+
+function checkBallResult (){
     //Selecionamos las bolas del html.
-    let ball = document.querySelectorAll('.rowResult:nth-child(' + intento + ') .cercleResult');
+    let ball = document.querySelectorAll('.rowResult:nth-child(' + [attempts + 1] + ') .cercleResult');
 
     //Assignamos los colores segun las repuestas.
     for (let i in userCombi) {
         ball[i].style.backgroundColor = changeBallColor(userCombi[i], master[i]);
     }
+}
 
-    //Reiniciamos las variables por ronda/intento.
-    intento++;
-    column = 0;
-    userCombi = [];
+//Muestra en el el apartado de mensaje "info", el numero de intentos.
+function userAttemptsMsg() {
+    const numbers = ['Primer', 'Segundo', 'Tercero', 'Cuarto', 'Quinto', 'Sexto', 'Septimo', 'Octavo', 'Noveno', 'Decimo'];
+    let userAttempts = document.querySelector('#info');
+    userAttempts.innerHTML = numbers[attempts] + " intento, suerte!";
+}
+
+//Muestra en el el apartado de mensaje "info", el numero de intentos que le queda al jugador.
+function remainingAttemptsMsg() {
+    let remainingAttempts = document.querySelector('#attempts strong');
+    remainingAttempts.innerHTML = rowNumbers - attempts;
 }
 
 //Funcion para assignar los colores a las bolitas segun la respuesta del usuario.
@@ -114,9 +183,16 @@ function checkPosition(colorUserCombi, colorMaster) {
     return colorUserCombi === colorMaster;
 }
 
+function colorMasterCell() {
+    let masterCell = document.querySelectorAll('#master .cel');
+    for (let i in master) {
+        masterCell[i].style.backgroundColor = master[i];
+    }
+}
+
 //Funcion que valida la condicion de victoria.
 function victoryValidation() {
-    for (let i = 0; i < master.length; i++) {
+    for (let i in master) {
         if (userCombi[i] != master[i]) {
             return false;
         }
@@ -124,22 +200,47 @@ function victoryValidation() {
     return true;
 }
 
-/** Procedimiento que se ejecuta cada vez que el usuario selecciona un color, hasta el número máximo de colores permitidos en la combinación. */
-function añadeColor(color) {
-    if (userCombi.length < MAX_COMBI_COLORES) {
+//Mostrar mensaje de victoria.
+function endGameMsg(isVictory) {
+    let infoText = document.querySelector('#info');
+    let message = isVictory ? "¡HAS ACERTADO, ENHORABUENA!" : "¡HAS PERDIDO, QUE LASTIMA!";
+    return infoText.innerHTML = message;
+}
+
+/* Procedimiento que se ejecuta cada vez que el usuario selecciona un color, hasta el número máximo de colores 
+ * permitidos en la combinación. */
+function addColor(color) {
+    if (userCombi.length < MAX_COMBI_COLORS) {
         userCombi.push(color);
         colorResultRows(color);
+        addColorName(color);
     }
+}
+
+//Funcion para eliminar todo los nombres de los colores del <input>.
+function deleteColorName() {
+    let inputColorName = document.getElementById('combiText');
+    inputColorName.value = '';
+}
+
+//Funcion para ir añadiendo los nombres de los colores al <input>.
+function addColorName(color) {
+    let inputColorName = document.getElementById('combiText');
+    //Añadir una ',' a la izquierda, menos en el primer valor.
+    if (column != 1) {
+        inputColorName.value += ',';
+    }
+    inputColorName.value += color;
 }
 
 //Funcion que pinta las casillas del resultado cuando el usuario seleciona los colores.
 function colorResultRows(color) {
-    let especificCel = document.querySelectorAll('.rowResult:nth-child(' + intento + ') .celUserCombi');
-    especificCel[column].style.backgroundColor = color;
+    let especificCell = document.querySelectorAll('.rowResult:nth-child(' + [attempts + 1] + ') .celUserCombi');
+    especificCell[column].style.backgroundColor = color;
     column++;
 }
 
-/*Funcion que nos devuelve un numero aleatorio.*/
+//Funcion que nos devuelve un numero aleatorio.*/
 function getRandomInt(max = 8) {
     let i = 0;
     do {
@@ -148,12 +249,12 @@ function getRandomInt(max = 8) {
     return i;
 }
 
-/*Funcion que nos devuelve un color aleatorio dentro del array de colores.*/
+//Funcion que nos devuelve un color aleatorio dentro del array de colores.*/
 function getRandomColor(number) {
     return COLORS[number - 1];
 }
 
-/*Funcion para crear todos las casillas grises segun los intentos que haya introducido el usuario*/
+//Funcion para crear todos las casillas grises segun los intentos que haya introducido el usuario*/
 function createColorBox(rowsNumber) {
     let resultSection = document.getElementById("Result");
     for (let i = 0; i < rowsNumber; i++) {
@@ -161,7 +262,10 @@ function createColorBox(rowsNumber) {
     }
 }
 
-/*Funcion que valida que el numero d eintentos introducido por el usuario sea mayor de 0 y menor del 10*/
+//Funcion que valida que el numero d eintentos introducido por el usuario sea mayor de 0 y menor del 10*/
 function attemptsValidation(attempts) {
-    return attempts >= MIN_INTENTOS && attempts <= MAX_INTENTOS;
+    return attempts >= MIN_ATTEMPTS && attempts <= MAX_ATTEMPTS;
 }
+
+//AÑADIR FUNCION PARA VALIDAR SI EL USUARIO HA INTRODUCIDO 4 COLORES ANTES DE COMPROBAR.
+//SI NO HAY COLROES NO SE VALIDA
