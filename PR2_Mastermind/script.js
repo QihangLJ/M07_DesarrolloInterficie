@@ -69,12 +69,17 @@ function erase() {
     eraseColorCell();
     eraseColorName();
 }
+//Borramos el color de la celda.
 function eraseColorCell() {
-    let especificCell = document.querySelectorAll('.rowResult:nth-child(' + [attempts + 1] + ') .celUserCombi');
-    column--;
-    especificCell[column].style.backgroundColor = "#BABABA";
+    if (column > 0){
+        let especificCell = document.querySelectorAll('.rowResult:nth-child(' + [attempts + 1] + ') .celUserCombi');
+        column--;
+        especificCell[column].style.backgroundColor = "#BABABA";
+    } else{
+        alert("¡Ya no puedes borrar más!"); 
+    }
 }
-
+//Borramos el nombre del color que aparece en el input.
 function eraseColorName() {
     let colorName = document.getElementById('combiText');
     let colorNameArray = colorName.value.split(',');
@@ -82,7 +87,7 @@ function eraseColorName() {
     colorName.value = colorNameArray;
 }
 
-//Llamaremos esta funcion desde el boton de "erase" para borrar el ultimo color que hayamos introducido.
+//Reiniciamos el juego, reseteando algunos valores y borrando algunos datos.
 function restart() {
     //Reiniciamos las variables para empezar la partida.
     attempts = 0;
@@ -93,11 +98,16 @@ function restart() {
     let resultCell = document.getElementById('Result');
     resultCell.innerHTML = '';
 
+    //Borramos los nombres de los colores que hayan quedado en el input.
+    let colorName = document.getElementById('combiText');
+    colorName.value = '';
+
     userAttemptsMsg();
     cleanMasterCell();
     init();
 }
 
+//Dejamos las celdas "master" tal y como estaba al principio.
 function cleanMasterCell() {
     let masterCell = document.querySelectorAll('#master .cel');
     for (let i = 0; i < masterCell.length; i++) {
@@ -109,35 +119,87 @@ function cleanMasterCell() {
 introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
 function check() {
-    //Validamos los colores del usuario con la del master.
-    checkBallResult();
 
-    //Incrementamos el contador de intentos y lo mostramos al juagdor.
-    attempts++;
-    userAttemptsMsg();
-    remainingAttemptsMsg();
+    if (isAvailableToCheck()) {
+        //Validamos los colores del usuario con la del master.
+        checkBallResult();
 
-    //Comprobamos si hemos ganado o perdido, en cualquiera de los caosos, mostramos los colores del master.
-    if (victoryValidation() || attempts >= rowNumbers) {
-        colorMasterCell();
-        endGameMsg(victoryValidation());
+        //Incrementamos el contador de intentos y lo mostramos al juagdor.
+        attempts++;
+        userAttemptsMsg();
+        remainingAttemptsMsg();
+
+        //Comprobamos si hemos ganado o perdido, en cualquiera de los caosos, mostramos los colores del master.
+        if (victoryValidation() || attempts >= rowNumbers) {
+            colorMasterCell();
+            endGameMsg(victoryValidation());
+        } else {
+            //Reiniciamos las variables para una nueva ronda (intento) e incrementamos el contador de intentos.
+            column = 0;
+            userCombi = [];
+        }
+
+        deleteColorName();
     } else {
-        //Reiniciamos las variables para una nueva ronda (intento) e incrementamos el contador de intentos.
-        column = 0;
-        userCombi = [];
+        alert("¡Tienes que introducir los 4 colores!");
     }
-
-    deleteColorName();
 }
 
-function checkBallResult (){
+//Funcion para validar si el usuario ha introducido 4 colores o no.
+function isAvailableToCheck() {
+    return userCombi.length === 4;
+}
+
+
+//Funcion que cambia el color de todas las bolas de una misma fila.
+function checkBallResult() {
     //Selecionamos las bolas del html.
     let ball = document.querySelectorAll('.rowResult:nth-child(' + [attempts + 1] + ') .cercleResult');
 
-    //Assignamos los colores segun las repuestas.
-    for (let i in userCombi) {
-        ball[i].style.backgroundColor = changeBallColor(userCombi[i], master[i]);
+    //Creamos un array con la de veces que se repite un color.
+    let colorCounter = repeatColorCounter();
+
+    //La utilizaremos para comprobar si hay colores en su sitio, sino la validacion de los colores iria en orden.
+    for (let i in ball) {
+        for (let j in colorCounter) {
+            if (COLORS[j] === userCombi[i]) {
+                if (userCombi[i] === master[i]) {
+                    colorCounter[j]--; //Restara en las repeticiones en caso de que el color este en su sitio. (NEGRO)
+                }
+            }
+        }
     }
+
+    //Assignamos los colores segun las repuestas.
+    for (let i in ball) {
+        for (let j in colorCounter) {
+            if (COLORS[j] === userCombi[i]) {
+                if (userCombi[i] === master[i]) {
+                    ball[i].style.backgroundColor = BLACK; //printar color negro (color y posicion correcto)
+                    //¡No restamos en "colorCounter", porque ya lo hicimos previamente!
+                } else if (master.includes(userCombi[i]) && colorCounter[j] > 0) {
+                    ball[i].style.backgroundColor = WHITE; //printar color blanco (color esta pero no en la posicion correcta)
+                    colorCounter[j]--;
+                } else {
+                    ball[i].style.backgroundColor = GREY; //printar color gris (NADA)
+                }
+            }
+        }
+    }
+}
+
+//Funcion para contar cuantas veces se repite un color, lo guarda en un array con el mismo orden de colores que el de "COLORS".
+function repeatColorCounter() {
+    let colorCountArray = [];
+    for (let i in COLORS) {
+        colorCountArray.push(0);
+        for (let j in master) {
+            if (COLORS[i] === master[j]) {
+                colorCountArray[i]++;
+            }
+        }
+    }
+    return colorCountArray;
 }
 
 //Muestra en el el apartado de mensaje "info", el numero de intentos.
@@ -151,36 +213,6 @@ function userAttemptsMsg() {
 function remainingAttemptsMsg() {
     let remainingAttempts = document.querySelector('#attempts strong');
     remainingAttempts.innerHTML = rowNumbers - attempts;
-}
-
-//Funcion para assignar los colores a las bolitas segun la respuesta del usuario.
-function changeBallColor(userCombi, master) {
-    let color;
-    if (checkColor(userCombi)) {
-        if (checkPosition(userCombi, master)) {
-            color = "black"; //printar color negro (color y posicion correcto)
-        } else {
-            color = "white"; //printar color blanco (color esta pero no en la posicion correcta)
-        }
-    } else {
-        color = "grey"; //printar color gris (NADA)
-    }
-    return color;
-}
-
-//Funcion para validar si el color que ha escogido el usuario esta dentro o no.
-function checkColor(colorUserCombi) {
-    for (let j in master) {
-        if (colorUserCombi === master[j]) {
-            return true;
-        }
-    }
-    return false;
-}
-
-//Funcion para validar si la posicion del color acertado es correcta o no.
-function checkPosition(colorUserCombi, colorMaster) {
-    return colorUserCombi === colorMaster;
 }
 
 function colorMasterCell() {
@@ -267,5 +299,5 @@ function attemptsValidation(attempts) {
     return attempts >= MIN_ATTEMPTS && attempts <= MAX_ATTEMPTS;
 }
 
-//AÑADIR FUNCION PARA VALIDAR SI EL USUARIO HA INTRODUCIDO 4 COLORES ANTES DE COMPROBAR.
-//SI NO HAY COLROES NO SE VALIDA
+
+//ARREGLAR ERROR DE COMPROVACIONES CON LAS BOLAS DE RESULTADO
